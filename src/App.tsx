@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import './global.css';
 import Router from './Router';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const ThemeColor = createGlobalStyle`
 body {
@@ -14,6 +15,7 @@ function App() {
     <>
       <ThemeColor />
       <Router />
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
 }

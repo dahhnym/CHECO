@@ -6,7 +6,8 @@ import {
   useMatch,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { fetchCoinInfo, fetchCoinTickers } from '../api';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -143,26 +144,19 @@ interface PriceData {
 
 const Coin = () => {
   const { coinId } = useParams();
-  const [loading, setLoading] = useState(true);
   const { state } = useLocation() as RouteState;
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
   const priceMatch = useMatch(':coinId/price');
   const chartMatch = useMatch(':coinId/chart');
+  const { isLoading: infoLoading, data: infoData } = useQuery(
+    ['info', coinId],
+    () => fetchCoinInfo(coinId!),
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery(
+    ['ticker', coinId],
+    () => fetchCoinTickers(coinId!),
+  );
 
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })();
-  }, [coinId]);
+  const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
@@ -176,26 +170,26 @@ const Coin = () => {
           <OverviewBox>
             <li>
               <span>RANK</span>
-              {info?.rank}
+              {infoData?.rank}
             </li>
             <li>
               <span>SYMBOL</span>
-              {info?.symbol}
+              {infoData?.symbol}
             </li>
             <li>
               <span>OPEN SOURCE</span>
-              {info?.open_source && 'NO'}
+              {infoData?.open_source && 'NO'}
             </li>
           </OverviewBox>
-          <Desc>{info?.description}</Desc>
+          <Desc>{infoData?.description}</Desc>
           <OverviewBox>
             <li>
               <span>TOTAL SUPPLY</span>
-              {priceInfo?.total_supply}
+              {tickersData?.total_supply}
             </li>
             <li>
               <span>MAX SUPPLY</span>
-              {priceInfo?.max_supply}
+              {tickersData?.max_supply}
             </li>
           </OverviewBox>
         </>
