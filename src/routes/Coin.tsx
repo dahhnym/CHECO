@@ -8,7 +8,8 @@ import {
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+import ControlBar from '../elements/ControlBar';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -19,7 +20,7 @@ const Container = styled.div`
 const Header = styled.header`
   min-height: 10vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   margin: 1.5rem 0;
 `;
@@ -34,21 +35,19 @@ const Loader = styled.div`
   text-align: center;
 `;
 
-const OverviewBox = styled.ul`
+const OverviewBox = styled.dl`
   background-color: ${(props) => props.theme.textColor};
   color: ${(props) => props.theme.bgColor};
   display: flex;
   justify-content: space-around;
   border-radius: 1rem;
-  li {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    text-align: center;
-    span {
-      font-size: 0.8rem;
-      margin-bottom: 0.5rem;
-    }
+  display: flex;
+  padding: 1rem;
+  text-align: center;
+  dt {
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -71,14 +70,16 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   border-radius: 1rem;
   background-color: ${(props) => props.theme.textColor};
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.bgColor};
+  color: ${(props) => props.theme.bgColor};
+  font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')};
   a {
     display: block;
   }
   &:hover {
-    background-color: #3c4cac;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    font-weight: 700;
+    background-color: ${(props) => props.theme.hoverColor};
+    color: ${(props) => props.theme.textColorBlack};
   }
 `;
 
@@ -143,7 +144,12 @@ interface TickersData {
   };
 }
 
-const Coin = () => {
+interface ITheme {
+  isToggled: boolean;
+  setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Coin = ({ isToggled, setIsToggled }: ITheme) => {
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch(':coinId/price');
@@ -171,6 +177,7 @@ const Coin = () => {
         </title>
       </Helmet>
       <Header>
+        <ControlBar isToggled={isToggled} setIsToggled={setIsToggled} />
         <Title>{state?.name || 'Loading...'}</Title>
       </Header>
       {loading ? (
@@ -178,29 +185,29 @@ const Coin = () => {
       ) : (
         <>
           <OverviewBox>
-            <li>
-              <span>RANK</span>
-              {infoData?.rank}
-            </li>
-            <li>
-              <span>SYMBOL</span>
-              {infoData?.symbol}
-            </li>
-            <li>
-              <span>PRICE</span>
-              <span>${tickersData?.quotes.USD.price}</span>
-            </li>
+            <div>
+              <dt>RANK</dt>
+              <dd>{infoData?.rank}</dd>
+            </div>
+            <div>
+              <dt>SYMBOL</dt>
+              <dd>{infoData?.symbol}</dd>
+            </div>
+            <div>
+              <dt>PRICE</dt>
+              <dd>{tickersData?.quotes.USD.price}</dd>
+            </div>
           </OverviewBox>
           <Desc>{infoData?.description}</Desc>
           <OverviewBox>
-            <li>
-              <span>TOTAL SUPPLY</span>
-              {tickersData?.total_supply}
-            </li>
-            <li>
-              <span>MAX SUPPLY</span>
-              {tickersData?.max_supply}
-            </li>
+            <div>
+              <dt>TOTAL SUPPLY</dt>
+              <dd>{tickersData?.total_supply}</dd>
+            </div>
+            <div>
+              <dt>MAX SUPPLY</dt>
+              <dd>{tickersData?.max_supply}</dd>
+            </div>
           </OverviewBox>
         </>
       )}

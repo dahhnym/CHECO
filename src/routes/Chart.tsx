@@ -14,7 +14,11 @@ interface IHistorical {
   market_cap: number;
 }
 
-const Chart = () => {
+interface ITheme {
+  isToggled: boolean;
+}
+
+const Chart = ({ isToggled }: ITheme) => {
   const { coinId } = useParams();
   const { isLoading, data } = useQuery<IHistorical[]>(
     ['ohlcv', coinId],
@@ -23,6 +27,7 @@ const Chart = () => {
       refetchInterval: 5000,
     },
   );
+  const themeColor = isToggled ? 'dark' : 'light';
   return (
     <div>
       {isLoading ? (
@@ -37,6 +42,9 @@ const Chart = () => {
             },
           ]}
           options={{
+            theme: {
+              mode: themeColor,
+            },
             chart: {
               height: 300,
               width: 500,

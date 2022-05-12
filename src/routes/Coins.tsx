@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { fetchCoins } from '../api';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+import ControlBar from '../elements/ControlBar';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -13,7 +14,7 @@ const Container = styled.div`
 const Header = styled.header`
   min-height: 10vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   margin: 1.5rem 0;
 `;
@@ -38,7 +39,7 @@ const Coin = styled.li`
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2rem;
   color: ${(props) => props.theme.textColor};
   font-weight: 700;
 `;
@@ -63,7 +64,12 @@ interface CoinInterface {
   type: string;
 }
 
-const Coins = () => {
+interface ITheme {
+  isToggled: boolean;
+  setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Coins = ({ isToggled, setIsToggled }: ITheme) => {
   const { isLoading, data } = useQuery('allCoins', fetchCoins);
 
   return (
@@ -72,7 +78,8 @@ const Coins = () => {
         <title>{`CRYPTO LIVE`}</title>
       </Helmet>
       <Header>
-        <Title>Coin List</Title>
+        <ControlBar isToggled={isToggled} setIsToggled={setIsToggled} />
+        <Title>TOP CRYPTO ASSETS</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
