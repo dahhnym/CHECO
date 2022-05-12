@@ -8,6 +8,7 @@ import {
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -108,7 +109,7 @@ interface InfoData {
   last_data_at: string;
 }
 
-interface PriceData {
+interface TickersData {
   id: string;
   name: string;
   symbol: string;
@@ -147,19 +148,28 @@ const Coin = () => {
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch(':coinId/price');
   const chartMatch = useMatch(':coinId/chart');
-  const { isLoading: infoLoading, data: infoData } = useQuery(
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ['info', coinId],
     () => fetchCoinInfo(coinId!),
   );
-  const { isLoading: tickersLoading, data: tickersData } = useQuery(
-    ['ticker', coinId],
-    () => fetchCoinTickers(coinId!),
-  );
+  const { isLoading: tickersLoading, data: tickersData } =
+    useQuery<TickersData>(['ticker', coinId], () => fetchCoinTickers(coinId!), {
+      refetchInterval: 5000,
+    });
 
   const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name
+            ? `CRYPTO LIVE | ${state.name}`
+            : loading
+            ? 'Loading...'
+            : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>{state?.name || 'Loading...'}</Title>
       </Header>
@@ -177,8 +187,8 @@ const Coin = () => {
               {infoData?.symbol}
             </li>
             <li>
-              <span>OPEN SOURCE</span>
-              {infoData?.open_source && 'NO'}
+              <span>PRICE</span>
+              <span>${tickersData?.quotes.USD.price}</span>
             </li>
           </OverviewBox>
           <Desc>{infoData?.description}</Desc>
