@@ -35,15 +35,18 @@ const Loader = styled.div`
   text-align: center;
 `;
 
-const OverviewBox = styled.dl`
-  background-color: ${(props) => props.theme.textColor};
-  color: ${(props) => props.theme.bgColor};
+export const OverviewBox = styled.dl`
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: ${(props) => props.theme.boxBgColor};
+  box-shadow: 0px 0px 5px 2px ${(props) => props.theme.boxShadow};
+  color: ${(props) => props.theme.textColor};
   border-radius: 1rem;
   display: flex;
   padding: 1rem;
   text-align: center;
+
   dt {
     font-weight: 700;
     font-size: 0.8rem;
@@ -69,17 +72,17 @@ const Tab = styled.span<{ isActive: boolean }>`
   padding: 0.5rem 1rem;
   text-align: center;
   border-radius: 1rem;
-  background-color: ${(props) => props.theme.textColor};
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.boxBgColor};
+  box-shadow: 0px 0px 5px 2px ${(props) => props.theme.boxShadow};
+  color: ${(props) => props.theme.textColor};
   font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')};
   a {
     display: block;
   }
   &:hover {
     transition: all 0.2s ease-in-out;
-    font-weight: 700;
-    background-color: ${(props) => props.theme.hoverColor};
-    color: ${(props) => props.theme.textColorBlack};
+    background-color: #b4bcdc;
+    color: ${(props) => props.theme.bgColor};
   }
 `;
 
@@ -147,9 +150,10 @@ interface TickersData {
 interface ITheme {
   isToggled: boolean;
   setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
 }
 
-const Coin = ({ isToggled, setIsToggled }: ITheme) => {
+const Coin = ({ isToggled, setIsToggled, title }: ITheme) => {
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch(':coinId/price');
@@ -170,7 +174,7 @@ const Coin = ({ isToggled, setIsToggled }: ITheme) => {
       <Helmet>
         <title>
           {state?.name
-            ? `CRYPTO LIVE | ${state.name}`
+            ? `${title} | ${state.name}`
             : loading
             ? 'Loading...'
             : infoData?.name}
@@ -195,7 +199,7 @@ const Coin = ({ isToggled, setIsToggled }: ITheme) => {
             </div>
             <div>
               <dt>PRICE</dt>
-              <dd>{tickersData?.quotes.USD.price}</dd>
+              <dd>{tickersData?.quotes.USD.price.toFixed(3)}</dd>
             </div>
           </OverviewBox>
           <Desc>{infoData?.description}</Desc>
@@ -223,7 +227,7 @@ const Coin = ({ isToggled, setIsToggled }: ITheme) => {
           </Link>
         </Tab>
       </TabContainer>
-      <Outlet />
+      <Outlet context={tickersData?.quotes.USD} />
     </Container>
   );
 };

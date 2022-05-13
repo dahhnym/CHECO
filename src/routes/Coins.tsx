@@ -67,15 +67,16 @@ interface CoinInterface {
 interface ITheme {
   isToggled: boolean;
   setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
 }
 
-const Coins = ({ isToggled, setIsToggled }: ITheme) => {
+const Coins = ({ isToggled, setIsToggled, title }: ITheme) => {
   const { isLoading, data } = useQuery('allCoins', fetchCoins);
 
   return (
     <Container>
       <Helmet>
-        <title>{`CRYPTO LIVE`}</title>
+        <title>{title}</title>
       </Helmet>
       <Header>
         <ControlBar isToggled={isToggled} setIsToggled={setIsToggled} />
