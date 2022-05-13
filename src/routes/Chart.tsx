@@ -27,6 +27,20 @@ const Chart = ({ isToggled }: ITheme) => {
       refetchInterval: 5000,
     },
   );
+
+  interface IObj {
+    x: number;
+    y: number[];
+  }
+
+  const priceData = data?.map((price) => {
+    let obj: IObj = {
+      x: Date.parse(price.time_close),
+      y: [price.open, price.high, price.low, price.close],
+    };
+    return obj;
+  });
+
   const themeColor = isToggled ? 'dark' : 'light';
   return (
     <div>
@@ -34,56 +48,30 @@ const Chart = ({ isToggled }: ITheme) => {
         'Loading chart...'
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: 'Price',
-              data: data?.map((price) => price.close) as number[],
+              data: priceData!,
             },
           ]}
           options={{
+            chart: {
+              type: 'candlestick',
+              height: 350,
+            },
             theme: {
               mode: themeColor,
             },
-            chart: {
-              height: 300,
-              width: 500,
-              toolbar: {
-                show: false,
-              },
-              background: 'transparent',
-            },
-            stroke: {
-              curve: 'smooth',
-              width: 2,
-            },
-            yaxis: {
-              show: false,
+            title: {
+              text: 'CandleStick Chart',
+              align: 'left',
             },
             xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              categories: data?.map((price) => price.time_close),
               type: 'datetime',
-              labels: {
-                show: false,
-                datetimeFormatter: {
-                  year: 'yyyy',
-                  month: "mmm 'yy",
-                },
-              },
+            },
+            yaxis: {
               tooltip: {
-                enabled: false,
-              },
-            },
-            fill: {
-              type: 'gradient',
-              gradient: { gradientToColors: ['#0be881'], stops: [0, 100] },
-            },
-            colors: ['#0fbcf9'],
-            tooltip: {
-              y: {
-                formatter: (value) => `$ ${value.toFixed(3)}`,
+                enabled: true,
               },
             },
           }}
