@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { HiSun } from 'react-icons/hi';
 import { IoMoon } from 'react-icons/io5';
 
@@ -29,7 +28,7 @@ const Switch = styled.label<IProps>`
   float: right;
   vertical-align: bottom;
   text-align: center;
-  width: 3.3rem;
+  width: 2.8rem;
   height: 1.5rem;
   input {
     opacity: 0;
@@ -39,7 +38,7 @@ const Switch = styled.label<IProps>`
   input:checked + span:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    transform: translateX(1.2rem);
   }
 `;
 
@@ -50,25 +49,29 @@ const Slider = styled.span<IProps>`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${(props) => (props.isDark ? '#000' : '#ccc')};
+  background-color: ${(props) =>
+    props.isDark ? props.theme.hoverColor : '#ccc'};
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 1rem;
   &:before {
     position: absolute;
     content: '';
-    height: 1.2rem;
-    width: 1.2rem;
+    height: 1.1rem;
+    width: 1.1rem;
     left: 0.25rem;
-    bottom: 0.15rem;
+    bottom: 0.2rem;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
   }
+  svg:first-child {
+    margin-bottom: 0.05rem;
+  }
   svg:nth-child(2) {
-    margin-left: 0.5rem;
-    margin-top: 0.1rem;
+    margin-left: 0.3rem;
+    margin-top: 0.2rem;
   }
 `;
 
@@ -97,10 +100,10 @@ const ControlBar = ({ isToggled, setIsToggled }: ITheme) => {
       )}
 
       <Switch>
-        <input type="checkbox" checked={isToggled} />
-        <Slider onClick={handleClick}>
-          <IoMoon size={'1rem'} color={'yellow'} />
-          <HiSun size={'1.2rem'} color={'tomato'} />
+        <input type="checkbox" defaultChecked={isToggled} />
+        <Slider onClick={handleClick} isDark={isToggled}>
+          <IoMoon size={'0.8rem'} color={'yellow'} />
+          <HiSun size={'1rem'} color={'tomato'} />
         </Slider>
       </Switch>
     </Container>
