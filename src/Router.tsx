@@ -14,7 +14,7 @@ function Router({ isToggled, setIsToggled }: ITheme) {
   const title = 'CHECO';
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route
           path="/"
