@@ -83,7 +83,7 @@ https://dahhnym.github.io/checo/
             Price.tsx
 ```
 
-## 추후 구현 추가사항
+## 추후 구현 예정
 
 - [ ] 전체적인 UI 수정
 - [ ] 암호화폐 관련 최신 뉴스 모음 탭
