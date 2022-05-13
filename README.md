@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+<h1 id="top">CHECO</h1>
+<br>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74545780/168324900-8e12b183-3901-4b29-8044-c3480edfcd48.png" width="250px"/>
+<p>
+<br>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## :pencil: 개요
 
-## Available Scripts
+- 실시간 암호화폐 가격변동 사항을 확인할 수 있는 Crypto Tracker 웹앱입니다.
+- 순위별 코인을 한 눈에 확인할 수 있습니다.
+- 각 코인별 상세 정보를 확인할 수 있습니다.
+  - 현재 코인 가격, 시가총액, 등락률, ATH, 총 발행량 등을 확인할 수 있습니다.
+  - 최근 한달간의 변동가격을 캔들 차트로 확인할 수 있습니다.
+- 다크모드를 사용할 수 있습니다.
+  <br>
+  <br>
 
-In the project directory, you can run:
+## 💻 사용기술
 
-### `yarn start`
+- JavaScript
+- React
+- TypeScript
+- React-Router-Dom
+- React-query
+- Styled-components
+  <br>
+  <br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🏚 개발 환경
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **OS** : Window
+- **Frontend**: React, TypeScript
+- **IDE** : VS Code
+- **Platform** : WebApp
+  <br>
+  <br>
 
-### `yarn test`
+## 🔗 배포 URL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://dahhnym.github.io/checo/
 
-### `yarn build`
+<br>
+<br>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="right"><a href="#top">[TOP]</a></p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 💬 프로젝트 구조
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+ |   .gitignore
+ |   .prettierrc
+ |   package.json
+ |   README.md
+ |   tsconfig.json
+ |   yarn.lock
+ |
+ ├ public
+ |       favicon.ico
+ |       index.html
+ |       logo192.png
+ |       logo512.png
+ |       manifest.json
+ |       robots.txt
+ |
+ └ src
+    |   api.ts
+    |   App.tsx
+    |   global.css
+    |   index.css
+    |   index.tsx
+    |   Router.tsx
+    |   styled.d.ts
+    |   theme.ts
+    |
+    └ elements
+    |       ControlBar.tsx
+    |
+    └ routes
+            Chart.tsx
+            Coin.tsx
+            Coins.tsx
+            Price.tsx
+```
 
-### `yarn eject`
+## 추후 구현 추가사항
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [ ] 전체적인 UI 수정
+- [ ] 암호화폐 관련 최신 뉴스 모음 탭
+- [ ] 코인 검색 기능
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br>
+<p align="right"><a href="#top">[TOP]</a></p>
