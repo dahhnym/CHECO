@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/CHECO/static/css/main.1f2ed853.css",
-    "main.js": "/CHECO/static/js/main.8bd3637c.js",
+    "main.js": "/CHECO/static/js/main.a4fbaa17.js",
     "index.html": "/CHECO/index.html",
     "main.1f2ed853.css.map": "/CHECO/static/css/main.1f2ed853.css.map",
-    "main.8bd3637c.js.map": "/CHECO/static/js/main.8bd3637c.js.map"
+    "main.a4fbaa17.js.map": "/CHECO/static/js/main.a4fbaa17.js.map"
   },
   "entrypoints": [
     "static/css/main.1f2ed853.css",
-    "static/js/main.8bd3637c.js"
+    "static/js/main.a4fbaa17.js"
   ]
 }
