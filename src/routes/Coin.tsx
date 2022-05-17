@@ -148,12 +148,10 @@ interface TickersData {
 }
 
 interface ITheme {
-  isToggled: boolean;
-  setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
 }
 
-const Coin = ({ isToggled, setIsToggled, title }: ITheme) => {
+const Coin = ({ title }: ITheme) => {
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch(':coinId/price');
@@ -181,7 +179,7 @@ const Coin = ({ isToggled, setIsToggled, title }: ITheme) => {
         </title>
       </Helmet>
       <Header>
-        <ControlBar isToggled={isToggled} setIsToggled={setIsToggled} />
+        <ControlBar />
         <Title>{state?.name || 'Loading...'}</Title>
       </Header>
       {loading ? (

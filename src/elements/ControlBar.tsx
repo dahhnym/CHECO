@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { HiSun } from 'react-icons/hi';
 import { IoMoon } from 'react-icons/io5';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
   width: 100%;
@@ -79,17 +81,12 @@ interface IProps {
   isDark?: boolean;
 }
 
-interface ITheme {
-  isToggled: boolean;
-  setIsToggled: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const ControlBar = () => {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  const isDark = useRecoilValue(isDarkAtom);
 
-const ControlBar = ({ isToggled, setIsToggled }: ITheme) => {
   const location = useLocation();
-
-  const handleClick = () => {
-    setIsToggled((prev) => !prev);
-  };
 
   return (
     <Container>
@@ -100,8 +97,8 @@ const ControlBar = ({ isToggled, setIsToggled }: ITheme) => {
       )}
 
       <Switch>
-        <input type="checkbox" defaultChecked={isToggled} />
-        <Slider onClick={handleClick} isDark={isToggled}>
+        <input type="checkbox" defaultChecked={isDark} />
+        <Slider onClick={toggleDarkAtom} isDark={isDark}>
           <IoMoon size={'0.8rem'} color={'yellow'} />
           <HiSun size={'1rem'} color={'tomato'} />
         </Slider>

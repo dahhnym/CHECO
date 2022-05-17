@@ -3,7 +3,8 @@ import './global.css';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { lightTheme, darkTheme } from './theme';
-import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 const ThemeColor = createGlobalStyle`
 body {
@@ -14,13 +15,13 @@ body {
 `;
 
 function App() {
-  const [isToggled, setIsToggled] = useState(false);
+  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <>
-      <ThemeProvider theme={isToggled ? darkTheme : lightTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <ThemeColor />
-        <Router isToggled={isToggled} setIsToggled={setIsToggled} />
+        <Router />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={true} />
     </>
